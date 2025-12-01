@@ -1,20 +1,7 @@
-"""
-NiceGUI Admin app for managing Users (PostgreSQL) and Logging in on Raspberry Pi.
-
-Requirements (install):
-    pip install nicegui psycopg[binary] bcrypt python-dotenv
-
-Notes:
-    - Uses psycopg3.
-    - Sets users.updated_at on create/update.
-    - Passwords are stored as bcrypt hashes. When editing a user, leave "New Password" blank to keep the existing hash.
-    - Roles: enter comma-separated values; saved as text[] in PostgreSQL.
-"""
-
 from nicegui import ui
 from dotenv import load_dotenv
 from db_connector_pg import PostgresConnector
-from user_page import UsersPage
+from user_management import UsersManagement
 import os
 
 load_dotenv()
@@ -30,14 +17,29 @@ dark = os.getenv('APP_DARK', 'False')
 
 repo = PostgresConnector()
 
+import all_pages
+import pages.user_page
+import theme
 
+from nicegui import app, ui
+
+
+# here we use our custom page decorator directly and just put the content creation into a separate function
 @ui.page('/')
-def main():
-    if profile == 'pi':
-        ui.timer(0.01, lambda: ui.navigate.to('/rpi-login'), once=True)
-    else:
-        UsersPage(repo)
+def index_page() -> None:
+    with theme.frame('Homepage'):
+        pages.user_page.UserPage.content()
 
+
+# this call shows that you can also move the whole page creation into a separate file
+all_pages.create()
+
+#@ui.page('/')
+#def main():
+#    if profile == 'pi':
+#        ui.timer(0.01, lambda: ui.navigate.to('/rpi-login'), once=True)
+#    else:
+#        UsersManagement(repo)
 
 # @ui.page('/rpi-login')
 # def rpi_login():

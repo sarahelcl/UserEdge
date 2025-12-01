@@ -7,7 +7,7 @@ def _csv_to_roles(text: Optional[str]) -> List[str]:
     return [r.strip() for r in (text or '').split(',') if r.strip()]
 
 
-class UsersPage:
+class UsersManagement:
     def __init__(self, repo: PostgresConnector):
         self.repo = repo
         ui.page_title('Users Admin - Basic Version')
