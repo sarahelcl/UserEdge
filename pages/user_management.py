@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional
 from nicegui import ui
 from db_connector_pg import PostgresConnector
+import theme
 
 
 def _csv_to_roles(text: Optional[str]) -> List[str]:
@@ -10,11 +11,9 @@ def _csv_to_roles(text: Optional[str]) -> List[str]:
 class UsersManagement:
     def __init__(self, repo: PostgresConnector):
         self.repo = repo
-        ui.page_title('Users Admin - Basic Version')
 
-        with ui.header().classes('bg-cyan-600 text-white'):
-            # https://tailwindcss.com/docs/colors
-            ui.label('Users Admin - Basic Version').classes('text-xl font-semibold')
+        with theme.frame('User Management'):
+            ui.page_title('User Management')
             search = ui.input('Search')
 
         self.table = ui.table(

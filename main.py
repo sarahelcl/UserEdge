@@ -1,7 +1,7 @@
 from nicegui import ui
 from dotenv import load_dotenv
 from db_connector_pg import PostgresConnector
-from user_management import UsersManagement
+from pages.user_management import UsersManagement
 import os
 
 load_dotenv()
